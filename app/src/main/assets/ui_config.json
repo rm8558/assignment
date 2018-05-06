@@ -1,0 +1,31 @@
+[
+  {
+    "field-name":"name",
+    "type":"text",
+    "required":true
+  },
+  {
+    "field-name":"age",
+    "type":"number",
+    "min":18,
+    "max":65
+  },
+  {
+    "field-name":"phone",
+    "type":"number",
+    "required":true
+  },
+  {
+    "field-name":"score",
+    "type":"decimal",
+    "min":75
+  },
+  {
+    "field-name":"expense",
+    "type":"decimal"
+  },
+  {
+    "field-name":"address",
+    "type":"multiline"
+  }
+]

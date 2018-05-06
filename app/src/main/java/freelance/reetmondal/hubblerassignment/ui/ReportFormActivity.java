@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -32,25 +33,7 @@ import freelance.reetmondal.hubblerassignment.model.ViewContainer;
 public class ReportFormActivity extends AppCompatActivity {
     private static final String TAG=ReportFormActivity.class.getSimpleName();
 
-    /*private static final String viewJson="[\n" +
-            "\n" +
-            "{'field-name':'name', 'type':'text'},\n" +
-            "\n" +
-            "{'field-name':'age', 'type':'number'},\n" +
-            "\n" +
-            "{'field-name':'gender', 'type':dropdown', 'options':['male', 'female', 'other']},\n" +
-            "\n" +
-            "{'field-name':'address', 'type':'multiline'}\n" +
-            "\n" +
-            "]";*/
-
-    private static final String viewJson="[{'field-name':'name', 'type':'text','required':true}," +
-            /*"{'field-name':'age>=18', 'type':'number','min':18}," +
-            "{'field-name':'age<=60', 'type':'number','max':60}," +*/
-            "{'field-name':'age', 'type':'number','min':18,'max':60}," +
-            /*"{'field-name':'age18.0-60.0', 'type':'decimal','min':18,'max':60}," +*/
-            "{'field-name':'gender', 'type':'dropdown', 'options':['male', 'female', 'other']}," +
-            "{'field-name':'address', 'type':'multiline'}]";
+    private String viewJson;
     public static final String REPORT_JSON = "REPORT_JSON";
 
     @BindView(R.id.formContainerLL)
@@ -76,6 +59,8 @@ public class ReportFormActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        readJSON();
+
         viewContainers=new ArrayList<ViewContainer>();
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
@@ -84,6 +69,20 @@ public class ReportFormActivity extends AppCompatActivity {
         }
 
         parseJsonAndInitForm();
+    }
+
+    private void readJSON(){
+        try {
+            InputStream inputStream = getAssets().open("ui_config.json");
+            byte buffer[]=new byte[inputStream.available()];
+            inputStream.read(buffer);
+            inputStream.close();
+            viewJson=new String(buffer);
+        }catch(Exception e){
+            Log.e(TAG,e.getMessage(),e);
+        }
+
+
     }
 
     private void showErrorToastAndExit(){
@@ -533,8 +532,10 @@ public class ReportFormActivity extends AppCompatActivity {
                                                 }
                                             }
                                         }catch (NumberFormatException numFX){
-                                            errorCount++;
-                                            textInputLayout.setError("NaN");
+                                            if(!input.trim().isEmpty()) {
+                                                errorCount++;
+                                                textInputLayout.setError("NaN");
+                                            }
                                         }
                                     }
                                     else if(viewContainer.getMinInteger()!=null
@@ -575,8 +576,10 @@ public class ReportFormActivity extends AppCompatActivity {
                                                 }
                                             }
                                         }catch (NumberFormatException numFX){
-                                            errorCount++;
-                                            textInputLayout.setError("NaN");
+                                            if(!input.trim().isEmpty()) {
+                                                errorCount++;
+                                                textInputLayout.setError("NaN");
+                                            }
                                         }
                                     }
                                     else{
