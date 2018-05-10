@@ -3,7 +3,8 @@
     <string name="add_report_label">Add Report</string>
     <string name="total_reports_label">Total Reports:</string>
     <string name="cancel_button_label">Cancel</string>
-    <string name="add_report_button_label">Add</string>
+    <string name="add_report_button_label">Submit</string>
+    <string name="add_composite_field_button_label">Add</string>
 
     <string name="error_form_creation_failed">Unable to create form</string>
 </resources>

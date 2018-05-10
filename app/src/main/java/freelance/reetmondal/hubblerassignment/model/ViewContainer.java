@@ -1,6 +1,11 @@
 package freelance.reetmondal.hubblerassignment.model;
 
 import android.view.View;
+import android.widget.TextView;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class ViewContainer {
     public static final int VIEW_CONTENT_TEXT=1;
@@ -14,6 +19,12 @@ public class ViewContainer {
 
     private Integer minInteger;
     private Integer maxInteger;
+
+    private ArrayList<String> options;
+
+    private JSONObject compositeValueObj;
+    private TextView compositeTextView;
+    private boolean viewComposite;
 
     public ViewContainer() {
         required=false;
@@ -88,5 +99,37 @@ public class ViewContainer {
 
     public void setMaxInteger(Integer maxInteger) {
         this.maxInteger = maxInteger;
+    }
+
+    public JSONObject getCompositeValueObj() {
+        return compositeValueObj;
+    }
+
+    public void setCompositeValueObj(JSONObject compositeValueObj) {
+        this.compositeValueObj = compositeValueObj;
+    }
+
+    public TextView getCompositeTextView() {
+        return compositeTextView;
+    }
+
+    public void setCompositeTextView(TextView compositeTextView) {
+        this.compositeTextView = compositeTextView;
+    }
+
+    public boolean isViewComposite() {
+        return viewComposite;
+    }
+
+    public void setViewComposite(boolean viewComposite) {
+        this.viewComposite = viewComposite;
+    }
+
+    public ArrayList<String> getOptions() {
+        return options;
+    }
+
+    public void setOptions(ArrayList<String> options) {
+        this.options = options;
     }
 }

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 startActivityForResult(formIntent,REQUEST_CODE_ADD_REPORT/*,activityOptionsCompat.toBundle()*/);
                             }
-                        },1000);
+                        },500);
                     }
                 });
     }
@@ -217,7 +218,11 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 JSONObject reportObject=new JSONObject(reportStr);
-                                reportArray.put(reportObject);
+                                JSONObject newReportObject=new JSONObject();
+
+                                getRequiredJSON(reportObject,newReportObject);
+
+                                reportArray.put(newReportObject);
                                 reportCountValueTV.setText(String.valueOf(reportArray.length()));
                             }catch (Exception e){
                                 Log.e(TAG,e.getMessage(),e);
@@ -232,5 +237,33 @@ public class MainActivity extends AppCompatActivity {
             default:
                 super.onActivityResult(requestCode,resultCode,data);
         }
+    }
+
+    private void getRequiredJSON(JSONObject obj,JSONObject newObj){
+        Iterator<String> iterator=obj.keys();
+
+        while(iterator.hasNext()){
+            String key=iterator.next();
+            try {
+                Object o = obj.get(key);
+
+                if(o instanceof JSONObject){
+                    getRequiredJSON(obj.getJSONObject(key),newObj);
+                }
+                else{
+                    newObj.put(key,obj.getString(key));
+                }
+            }catch (Exception e){
+                Log.e(TAG,e.getMessage(),e);
+            }
+        }
+
+        /*List<String>keysFromObj=obj.keys();
+        keys.addAll(keysFromObj);
+        for(String key:keysFromObj){
+            if(obj.get(key).getClass()==JSONObject.class){
+                findKeys(obj.get(key),keys);
+            }
+        }*/
     }
 }
